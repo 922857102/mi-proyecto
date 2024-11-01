@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Repuestos para Motos</title>
+    <style>
+        /* Estilos CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .producto {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 15px;
+            width: 200px; /* Ancho fijo */
+            text-align: center;
+        }
+
+        .producto img {
+            max-width: 100%; /* Asegura que las imágenes no se desborden */
+            height: auto; /* Mantiene la proporción de la imagen */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tienda de Repuestos para Motos</h1>
+    </header>
+    <main>
+        <div id="contenedor-productos"></div> <!-- Contenedor para los productos -->
+    </main>
+    <script>
+        // Función para obtener los datos
+        function obtenerProductos() {
+            fetch('https://script.google.com/macros/s/AKfycbyLvQNmB6I13UlWyA3-aX-PhJ1kkFc2rxH-yMS2ITEcAnvJencoBp_FquNPcLsZBHwZ/exec')
+                .then(response => response.json())
+                .then(data => {
+                    mostrarProductos(data); // Llama a la función para mostrar productos
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Función para mostrar los productos en el contenedor
+        function mostrarProductos(productos) {
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ''; // Limpia el contenedor
+
+            productos.forEach(producto => {
+                const div = document.createElement('div');
+                div.classList.add('producto');
+                div.innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.producto}">
+                    <h2>${producto.producto}</h2>
+                    <p>Código: ${producto.codigo}</p>
+                    <p>Precio: ${producto.precio_web}</p>
+                    <p>Marca: ${producto.marca}</p>
+                    <p>Calificación: ${producto.calificacion}</p>
+                `;
+                contenedor.appendChild(div);
+            });
+        }
+
+        // Llama a la función para obtener los productos al cargar la página
+        obtenerProductos();
+    </script>
+</body>
+</html>
